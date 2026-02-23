@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, Type } from '@google/genai';
 import { Upload, Wand2, Image as ImageIcon, Download, Sparkles, Loader2, RefreshCw } from 'lucide-react';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: atob(process.env.GHOST_KEY || '') });
 
 const TEMPLATES = [
   'https://picsum.photos/seed/meme1/600/400',
