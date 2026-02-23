@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
     base: '/Ai-Meme/',
     plugins: [react(), tailwindcss()],
     define: {
-      'process.env.GHOST_KEY': JSON.stringify(Buffer.from(env.GEMINI_API_KEY || '').toString('base64')),
+      'process.env.GHOST_KEY': JSON.stringify(Buffer.from(process.env.GEMINI_API_KEY || env.GEMINI_API_KEY || '').toString('base64')),
     },
     resolve: {
       alias: {
