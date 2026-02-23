@@ -154,7 +154,7 @@ export default function App() {
     setIsAnalyzing(true);
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-2.0-flash",
         contents: {
           parts: [
             {
@@ -195,7 +195,7 @@ export default function App() {
     setIsEditing(true);
     try {
       const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.0-flash',
         contents: {
           parts: [
             {
