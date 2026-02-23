@@ -27,12 +27,12 @@ async function getBase64FromUrl(url: string): Promise<{ data: string, mimeType: 
 }
 
 function wrapText(
-  ctx: CanvasRenderingContext2D, 
-  text: string, 
-  x: number, 
-  y: number, 
-  maxWidth: number, 
-  lineHeight: number, 
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
   position: 'top' | 'bottom'
 ) {
   const words = text.split(' ');
@@ -103,7 +103,7 @@ export default function App() {
       ctx.strokeStyle = 'black';
       ctx.lineWidth = Math.max(3, width / 80);
       ctx.lineJoin = 'round';
-      
+
       const fontSize = Math.max(32, width / 10);
       ctx.font = `bold ${fontSize}px Impact, sans-serif`;
       const lineHeight = fontSize * 1.2;
@@ -124,7 +124,7 @@ export default function App() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64data = reader.result as string;
@@ -154,7 +154,7 @@ export default function App() {
     setIsAnalyzing(true);
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
+        model: "gemini-1.5-flash",
         contents: {
           parts: [
             {
@@ -176,7 +176,7 @@ export default function App() {
           }
         }
       });
-      
+
       const text = response.text;
       if (text) {
         const parsed = JSON.parse(text);
@@ -195,7 +195,7 @@ export default function App() {
     setIsEditing(true);
     try {
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
+        model: 'gemini-1.5-flash',
         contents: {
           parts: [
             {
@@ -210,7 +210,7 @@ export default function App() {
           ],
         },
       });
-      
+
       for (const part of response.candidates?.[0]?.content?.parts || []) {
         if (part.inlineData) {
           setImage({
@@ -262,7 +262,7 @@ export default function App() {
           </div>
           <div className="flex items-center gap-3">
             {image && (
-              <button 
+              <button
                 onClick={handleReset}
                 className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded-lg font-medium hover:bg-zinc-800 transition-colors"
               >
@@ -271,7 +271,7 @@ export default function App() {
               </button>
             )}
             {image && (
-              <button 
+              <button
                 onClick={handleDownload}
                 className="flex items-center gap-2 px-4 py-2 bg-zinc-100 text-zinc-900 rounded-lg font-medium hover:bg-white transition-colors"
               >
@@ -299,8 +299,8 @@ export default function App() {
                   </label>
                 </div>
               ) : (
-                <canvas 
-                  ref={canvasRef} 
+                <canvas
+                  ref={canvasRef}
                   className="max-w-full max-h-[600px] object-contain rounded-lg shadow-2xl"
                 />
               )}
@@ -312,7 +312,7 @@ export default function App() {
                 <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider">Trending Templates</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {TEMPLATES.map((url, i) => (
-                    <button 
+                    <button
                       key={i}
                       onClick={() => loadTemplate(url)}
                       className="relative aspect-video rounded-xl overflow-hidden border border-zinc-800 hover:border-indigo-500 transition-colors group"
@@ -336,8 +336,8 @@ export default function App() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-zinc-400 mb-1.5">Top Text</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={topText}
                     onChange={e => setTopText(e.target.value)}
                     className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
@@ -346,8 +346,8 @@ export default function App() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-zinc-400 mb-1.5">Bottom Text</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={bottomText}
                     onChange={e => setBottomText(e.target.value)}
                     className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
@@ -364,7 +364,7 @@ export default function App() {
                   <Wand2 className="w-5 h-5 text-purple-400" />
                   Magic Captions
                 </h2>
-                <button 
+                <button
                   onClick={handleMagicCaption}
                   disabled={!image || isAnalyzing}
                   className="px-4 py-2 bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium text-sm transition-colors flex items-center gap-2"
@@ -373,7 +373,7 @@ export default function App() {
                   {isAnalyzing ? 'Analyzing...' : 'Generate'}
                 </button>
               </div>
-              
+
               {captions.length > 0 ? (
                 <div className="space-y-2">
                   {captions.map((caption, i) => (
@@ -403,14 +403,14 @@ export default function App() {
                 Use text prompts to edit the image (e.g., "Add a retro filter", "Remove the background").
               </p>
               <div className="flex gap-2">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={editPrompt}
                   onChange={e => setEditPrompt(e.target.value)}
                   placeholder="What do you want to change?"
                   className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all"
                 />
-                <button 
+                <button
                   onClick={handleEditImage}
                   disabled={!image || !editPrompt || isEditing}
                   className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-medium transition-colors flex items-center gap-2"
