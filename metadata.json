@@ -1,0 +1,5 @@
+{
+  "name": "AI Meme Generator",
+  "description": "Create memes with AI. Upload an image, generate magic captions, and edit images with text prompts.",
+  "requestFramePermissions": []
+}
